@@ -107,10 +107,10 @@ class LastfmClient(BaseClient):
     def _get_sig(self, params):
         """Create a signature as per http://www.last.fm/api/authspec#8."""
         exclude = {'format', 'callback'}
-        sig = ''.join(k + unicode(v).encode('utf8') for k, v
+        sig = ''.join(k + v for k, v
                       in sorted(params.items()) if k not in exclude)
         sig += self.api_secret
-        return md5(sig).hexdigest()
+        return md5(sig.encode('utf-8')).hexdigest()
 
     def _process_response_data(self, data):
         """
